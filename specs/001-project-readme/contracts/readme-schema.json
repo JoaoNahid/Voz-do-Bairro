@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ProjectReadmeContract",
+  "description": "Schema de validação para as seções obrigatórias do README.md de apresentação do projeto Voz do Bairro",
+  "type": "object",
+  "required": [
+    "title",
+    "academic_context",
+    "project_objectives",
+    "sdg_alignment",
+    "requirements_catalog",
+    "technical_stack",
+    "git_standards",
+    "official_repository"
+  ],
+  "properties": {
+    "title": {
+      "type": "string",
+      "pattern": "^#.*Voz do Bairro"
+    },
+    "academic_context": {
+      "type": "object",
+      "required": ["course", "discipline", "authors", "application_area"],
+      "properties": {
+        "course": { "type": "string" },
+        "discipline": { "type": "string" },
+        "authors": {
+          "type": "array",
+          "minItems": 2
+        },
+        "application_area": { "type": "string" }
+      }
+    },
+    "sdg_alignment": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "object",
+        "required": ["code", "title", "impact"],
+        "properties": {
+          "code": { "type": "integer" },
+          "title": { "type": "string" },
+          "impact": { "type": "string" }
+        }
+      }
+    },
+    "requirements_catalog": {
+      "type": "object",
+      "required": ["functional", "non_functional", "governance_model"],
+      "properties": {
+        "functional": {
+          "type": "array",
+          "minItems": 5
+        },
+        "non_functional": {
+          "type": "array",
+          "minItems": 5
+        },
+        "governance_model": {
+          "type": "string",
+          "description": "Modelo descentralizado e autogerido sem hierarquia rígida de usuários"
+        }
+      }
+    },
+    "technical_stack": {
+      "type": "object",
+      "required": ["backend", "frontend", "database", "optimization"],
+      "properties": {
+        "backend": { "type": "string" },
+        "frontend": { "type": "string" },
+        "database": { "type": "string" },
+        "optimization": { "type": "string" }
+      }
+    },
+    "git_standards": {
+      "type": "object",
+      "required": ["branching_model", "commit_convention"],
+      "properties": {
+        "branching_model": { "type": "string", "enum": ["GitFlow"] },
+        "commit_convention": { "type": "string" }
+      }
+    },
+    "official_repository": {
+      "type": "string",
+      "format": "uri"
+    }
+  }
+}
