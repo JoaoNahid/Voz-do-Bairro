@@ -1,3 +1,16 @@
+<!--
+Sync Impact Report:
+- Version change: 1.1.0 → 1.2.0
+- List of modified principles:
+  - IV. Clean Architecture, Clean Code & Design Patterns (estipulação mandatória do shadcn-vue como design system e biblioteca de componentes para o frontend)
+- Added sections:
+  - Frontend Design System & Component Library (shadcn-vue) sob Technology Stack & Scalability Architecture
+- Removed sections:
+  - Nenhuma
+- Follow-up TODOs:
+  - Nenhum
+-->
+
 # Voz do Bairro Constitution
 
 ## Core Principles
@@ -25,7 +38,8 @@ A qualidade do software DEVE ser assegurada por testes automatizados implementad
 A estrutura do código DEVE aplicar os fundamentos de Clean Architecture e Clean Code, priorizando separação clara de responsabilidades, legibilidade e manutenibilidade por terceiros (RNF04).
 - O backend em Laravel DEVE evitar o acoplamento excessivo em Controllers e Views: regras de negócio residem em Use Cases/Actions e Domain Services independentes; requisições DEVEM ser validadas via Form Requests dedicados; transferência de dados deve utilizar DTOs tipados.
 - O código DEVE seguir padrões de projeto consolidados (Factory, Repository/Query Objects, Strategy, Observer) apenas onde agregarem simplificação e desacoplamento, sem sobre-engenharia desnecessária (YAGNI).
-- O frontend em Vue DEVE ser modular, reativo, com componentes reutilizáveis, gerenciamento de estado previsível e estilização clara e intuitiva (RNF02).
+- O frontend em Vue 3 DEVE ser modular, reativo, com componentes reutilizáveis, gerenciamento de estado previsível e estilização clara e intuitiva (RNF02).
+- Para assegurar excelência estética, consistência visual e acessibilidade, o frontend DEVE utilizar o ecossistema de componentes do **shadcn-vue** (https://www.shadcn-vue.com/), garantindo que elementos de interface (botões, cards, modais/dialogs, carrosséis, formulários e badges) sigam os padrões de Radix Vue e Tailwind CSS.
 
 ### V. Social Utility & ODS Alignment (UN 2030 Agenda)
 O sistema Voz do Bairro DEVE manter como propósito fundamental a utilidade pública e a inclusão social no contexto das Atividades Extensionistas e dos Objetivos de Desenvolvimento Sustentável (ODS) da ONU.
@@ -37,8 +51,13 @@ O sistema Voz do Bairro DEVE manter como propósito fundamental a utilidade púb
 
 ### Core Stack
 - **Backend**: Laravel (PHP 8.2+) configurado com tipagem estrita (`declare(strict_types=1);`), middlewares de segurança, Form Requests e arquitetura orientada a serviços e ações.
-- **Frontend**: Vue.js 3 utilizando Composition API e script setup, priorizando reatividade moderna, alta responsividade e interface acessível.
+- **Frontend**: Vue.js 3 utilizando Composition API e script setup, com design system e biblioteca de componentes **shadcn-vue** (https://www.shadcn-vue.com/) sobre Tailwind CSS e Radix Vue, priorizando reatividade moderna, alta responsividade, acessibilidade e interface moderna.
 - **Banco de Dados**: PostgreSQL com modelagem relacional normalizada, chaves estrangeiras, índices adequados e migrations incrementais estritamente auditadas.
+
+### Frontend Design System & Component Library (shadcn-vue)
+- **Referência Oficial**: [shadcn-vue](https://www.shadcn-vue.com/)
+- **Padrão de Componentização**: A interface DEVE adotar os componentes do shadcn-vue instalados e mantidos no projeto para todos os elementos estruturais e interativos (Button, Card, Carousel, Dialog/Modal, Form, Input, Badge, Dropdown, Toast).
+- **Acessibilidade e Consistência**: O uso das primitivas acessíveis do Radix Vue e estilos utilitários do Tailwind CSS garante conformidade com padrões de acessibilidade (WCAG), suporte a modo claro/escuro e prevenção de estilos ad-hoc despadronizados.
 
 ### Scalability, Optimization & Asynchronous Services
 - **Cache & Sessão**: Redis DEVE ser empregado para cache de dados de alta leitura (ex.: listagem de bairros, relatórios consolidados e contadores em tempo real) e gerenciamento otimizado de sessões.
@@ -58,7 +77,7 @@ O sistema Voz do Bairro DEVE manter como propósito fundamental a utilidade púb
 ### GitFlow Model
 O versionamento de código DEVE seguir rigorosamente o modelo GitFlow:
 - `master`: Branch de produção contendo apenas código estável e pronto para entrega.
-- `develop`: Branch de integração contínua contendo as últimas alterações validadas.
+- `develop`: Branch de integração contênua contendo as últimas alterações validadas.
 - `feature/<nome-da-funcionalidade>`: Criada a partir de `develop` e integrada exclusivamente a `develop` após revisão e testes aprovados.
 - `bugfix/<nome-da-correcao>`: Criada a partir de `develop` para correções durante o ciclo de desenvolvimento.
 - `release/<versao>`: Criada a partir de `develop` para preparação de nova versão e mesclada tanto em `master` quanto em `develop`.
@@ -94,4 +113,4 @@ A presente Constituição é o documento de governança técnica supremo do proj
   - **MINOR (1.x.0)**: Adição de novos princípios, inclusão de novas ferramentas de suporte arquitetural ou expansão de fluxos de governança.
   - **PATCH (1.0.x)**: Clarificações textuais, refinamentos ortográficos e correções de formatação não-semânticas.
 
-**Version**: 1.1.0 | **Ratified**: 2026-10-28 | **Last Amended**: 2026-10-28
+**Version**: 1.2.0 | **Ratified**: 2026-10-28 | **Last Amended**: 2026-10-28
