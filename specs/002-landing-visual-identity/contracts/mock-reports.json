@@ -1,0 +1,58 @@
+[
+  {
+    "id": "rep-001",
+    "title": "Cratera na via principal bloqueando o acesso de veículos",
+    "category": "vias",
+    "categoryLabel": "Vias Públicas",
+    "neighborhood": "Recanto dos Fernandes",
+    "street": "Rua das Palmeiras, altura do nº 140",
+    "date": "Há 1 dia",
+    "imageUrl": "/images/reports/buraco-rua.jpg",
+    "votesRelevant": 48,
+    "votesIrrelevant": 2,
+    "quorumPercentage": 64,
+    "isPublicPriority": true
+  },
+  {
+    "id": "rep-002",
+    "title": "Vazamento contínuo de água limpa na sarjeta há mais de 4 dias",
+    "category": "saneamento",
+    "categoryLabel": "Saneamento & Água",
+    "neighborhood": "Centro",
+    "street": "Av. Dr. Lisboa, próx. ao Calçadão",
+    "date": "Há 3 dias",
+    "imageUrl": "/images/reports/vazamento-agua.jpg",
+    "votesRelevant": 35,
+    "votesIrrelevant": 1,
+    "quorumPercentage": 52,
+    "isPublicPriority": false
+  },
+  {
+    "id": "rep-003",
+    "title": "Três postes consecutivos com lâmpadas apagadas gerando insegurança",
+    "category": "iluminacao",
+    "categoryLabel": "Iluminação Pública",
+    "neighborhood": "São Geraldo",
+    "street": "Rua Cel. Otávio Meyer",
+    "date": "Há 2 dias",
+    "imageUrl": "/images/reports/poste-apagado.jpg",
+    "votesRelevant": 62,
+    "votesIrrelevant": 3,
+    "quorumPercentage": 71,
+    "isPublicPriority": true
+  },
+  {
+    "id": "rep-004",
+    "title": "Acúmulo de entulho e vegetação alta na praça comunitária",
+    "category": "limpeza",
+    "categoryLabel": "Limpeza & Praças",
+    "neighborhood": "Fátima",
+    "street": "Praça Senador José Bento",
+    "date": "Há 5 dias",
+    "imageUrl": "/images/reports/lixo-praca.jpg",
+    "votesRelevant": 29,
+    "votesIrrelevant": 4,
+    "quorumPercentage": 45,
+    "isPublicPriority": false
+  }
+]

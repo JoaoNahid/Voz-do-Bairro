@@ -1,0 +1,35 @@
+# Universal
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.backup
+.env.production
+
+# PHP / Laravel
+/vendor/
+node_modules/
+npm-debug.log
+yarn-error.log
+/bootstrap/cache/
+/storage/*.key
+/storage/app/
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/views/
+/storage/logs/
+
+# Frontend / Node / Build
+dist/
+build/
+/public/build/
+storage/
+*.log
+
+# Spec Kit per-machine state
+.specify/feature.json
