@@ -27,6 +27,8 @@ yarn-error.log
 # Frontend / Node / Build
 dist/
 build/
+/public/build/
+storage/
 *.log
 
 # Spec Kit per-machine state
