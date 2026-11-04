@@ -13,6 +13,9 @@ Thumbs.db
 
 # PHP / Laravel
 /vendor/
+*.sqlite
+database/*.sqlite
+database/database.sqlite
 node_modules/
 npm-debug.log
 yarn-error.log
@@ -33,3 +36,4 @@ storage/
 
 # Spec Kit per-machine state
 .specify/feature.json
+.phpunit.result.cache

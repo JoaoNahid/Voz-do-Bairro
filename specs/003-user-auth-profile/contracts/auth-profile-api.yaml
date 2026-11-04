@@ -1,0 +1,351 @@
+openapi: 3.0.3
+info:
+  title: Voz do Bairro - Autenticação e Perfil do Cidadão
+  version: 1.0.0
+  description: Contratos de API para registro, login com persistência, consulta de CEP via OpenCEP, edição cadastral e exclusão de conta.
+paths:
+  /api/cep/{cep}:
+    get:
+      summary: Consulta de CEP via OpenCEP
+      parameters:
+        - name: cep
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "37550000"
+      responses:
+        '200':
+          description: Dados de endereço retornados com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CepResponse'
+        '404':
+          description: CEP não encontrado
+        '502':
+          description: Falha temporária na integração externa
+
+  /api/auth/register:
+    post:
+      summary: Cadastro de novo munícipe com endereço polimórfico
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Munícipe e endereço cadastrados com sucesso e autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '422':
+          description: Erro de validação de campos
+
+  /api/auth/login:
+    post:
+      summary: Autenticação de munícipe com opção de Lembrar de Mim
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login efetuado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          description: Credenciais inválidas
+        '429':
+          description: Muitas tentativas (Throttle)
+
+  /api/auth/logout:
+    post:
+      summary: Encerramento de sessão ativa e revogação de tokens
+      responses:
+        '200':
+          description: Sessão encerrada com sucesso
+
+  /api/auth/me:
+    get:
+      summary: Dados do munícipe autenticado na sessão atual
+      responses:
+        '200':
+          description: Dados do munícipe autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          description: Não autenticado
+
+  /api/profile:
+    put:
+      summary: Atualização de dados cadastrais e endereço
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileRequest'
+      responses:
+        '200':
+          description: Perfil atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '422':
+          description: Erro de validação ou senha incorreta ao alterar e-mail
+
+  /api/profile/password:
+    put:
+      summary: Alteração de senha
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePasswordRequest'
+      responses:
+        '200':
+          description: Senha alterada com sucesso
+        '422':
+          description: Senha atual incorreta ou nova senha inválida
+
+  /api/profile/account:
+    delete:
+      summary: Exclusão definitiva da conta e endereço
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteAccountRequest'
+      responses:
+        '200':
+          description: Conta excluída e sessão finalizada
+        '422':
+          description: Senha de confirmação incorreta
+
+components:
+  schemas:
+    CepResponse:
+      type: object
+      properties:
+        cep:
+          type: string
+          example: "37550-000"
+        logradouro:
+          type: string
+          example: "Avenida Doutor Lisboa"
+        bairro:
+          type: string
+          example: "Centro"
+        cidade:
+          type: string
+          example: "Pouso Alegre"
+        uf:
+          type: string
+          example: "MG"
+        is_pilot_region:
+          type: boolean
+          example: true
+
+    RegisterRequest:
+      type: object
+      required:
+        - name
+        - email
+        - password
+        - password_confirmation
+        - cep
+        - logradouro
+        - numero
+        - bairro
+        - cidade
+        - uf
+      properties:
+        name:
+          type: string
+          example: "Maria de Lourdes"
+        email:
+          type: string
+          format: email
+          example: "maria.lourdes@exemplo.com"
+        password:
+          type: string
+          format: password
+          example: "Senha@2026!"
+        password_confirmation:
+          type: string
+          format: password
+          example: "Senha@2026!"
+        cep:
+          type: string
+          example: "37550000"
+        logradouro:
+          type: string
+          example: "Rua Comendador José Garcia"
+        numero:
+          type: string
+          example: "120"
+        complemento:
+          type: string
+          example: "Apto 302"
+        bairro:
+          type: string
+          example: "Centro"
+        cidade:
+          type: string
+          example: "Pouso Alegre"
+        uf:
+          type: string
+          example: "MG"
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: "maria.lourdes@exemplo.com"
+        password:
+          type: string
+          format: password
+          example: "Senha@2026!"
+        remember:
+          type: boolean
+          default: false
+          example: true
+
+    UpdateProfileRequest:
+      type: object
+      required:
+        - name
+        - email
+        - cep
+        - logradouro
+        - numero
+        - bairro
+        - cidade
+        - uf
+      properties:
+        name:
+          type: string
+          example: "Maria de Lourdes Santos"
+        email:
+          type: string
+          format: email
+          example: "maria.santos@exemplo.com"
+        current_password:
+          type: string
+          description: Obrigatório caso o e-mail seja modificado
+          example: "Senha@2026!"
+        cep:
+          type: string
+          example: "37550000"
+        logradouro:
+          type: string
+          example: "Rua Comendador José Garcia"
+        numero:
+          type: string
+          example: "150"
+        complemento:
+          type: string
+          example: "Casa"
+        bairro:
+          type: string
+          example: "Centro"
+        cidade:
+          type: string
+          example: "Pouso Alegre"
+        uf:
+          type: string
+          example: "MG"
+
+    UpdatePasswordRequest:
+      type: object
+      required:
+        - current_password
+        - password
+        - password_confirmation
+      properties:
+        current_password:
+          type: string
+          format: password
+          example: "Senha@2026!"
+        password:
+          type: string
+          format: password
+          example: "NovaSenha@2026#"
+        password_confirmation:
+          type: string
+          format: password
+          example: "NovaSenha@2026#"
+
+    DeleteAccountRequest:
+      type: object
+      required:
+        - current_password
+      properties:
+        current_password:
+          type: string
+          format: password
+          example: "NovaSenha@2026#"
+
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Maria de Lourdes"
+        email:
+          type: string
+          example: "maria.lourdes@exemplo.com"
+        address:
+          $ref: '#/components/schemas/AddressResponse'
+
+    AddressResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        cep:
+          type: string
+          example: "37550000"
+        logradouro:
+          type: string
+          example: "Rua Comendador José Garcia"
+        numero:
+          type: string
+          example: "120"
+        complemento:
+          type: string
+          example: "Apto 302"
+        bairro:
+          type: string
+          example: "Centro"
+        cidade:
+          type: string
+          example: "Pouso Alegre"
+        uf:
+          type: string
+          example: "MG"
+        is_pilot_region:
+          type: boolean
+          example: true

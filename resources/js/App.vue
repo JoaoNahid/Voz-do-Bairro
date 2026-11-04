@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useSessionStore, type Report } from '@/stores/sessionStore';
 import { initialReports } from '@/data/mockReports';
 import Navbar from '@/components/presentation/Navbar.vue';
@@ -8,12 +8,19 @@ import ReportsCarouselSection from '@/components/presentation/ReportsCarouselSec
 import QuickReportSection from '@/components/presentation/QuickReportSection.vue';
 import FooterSection from '@/components/presentation/FooterSection.vue';
 import AuthDialog from '@/components/presentation/AuthDialog.vue';
+import ProfileDialog from '@/components/presentation/ProfileDialog.vue';
 import VoteConfirmDialog from '@/components/presentation/VoteConfirmDialog.vue';
 import FullReportDialog from '@/components/presentation/FullReportDialog.vue';
 import { Toaster, useToast } from '@/components/ui/toast';
 
-const { isAuthenticated, currentUser, toggleAuth, login } = useSessionStore();
+const sessionStore = useSessionStore();
+const { isAuthenticated, currentUser, toggleAuth, login, fetchUser } = sessionStore;
 const { toast } = useToast();
+
+onMounted(async () => {
+  // Hydrate session from persistent Remember Me cookie or server session
+  await fetchUser();
+});
 
 // Interactive Reports State
 const reports = ref<Report[]>([...initialReports]);
@@ -21,6 +28,7 @@ const reports = ref<Report[]>([...initialReports]);
 // Modal States
 const isAuthModalOpen = ref(false);
 const authModalTab = ref<'login' | 'register'>('login');
+const isProfileModalOpen = ref(false);
 
 const isVoteModalOpen = ref(false);
 const selectedReportForVote = ref<Report | null>(null);
@@ -156,6 +164,8 @@ function handleFullReportSubmit(newReport: Report) {
       :current-user="currentUser"
       @toggle-auth="toggleAuth"
       @open-login="handleOpenLogin"
+      @open-auth="handleOpenLogin"
+      @open-profile="isProfileModalOpen = true"
     />
 
     <!-- Main Content Area -->
@@ -191,6 +201,11 @@ function handleFullReportSubmit(newReport: Report) {
       :initial-tab="authModalTab"
       @update:open="(val) => (isAuthModalOpen = val)"
       @success="handleAuthSuccess"
+    />
+
+    <ProfileDialog
+      :open="isProfileModalOpen"
+      @update:open="(val) => (isProfileModalOpen = val)"
     />
 
     <VoteConfirmDialog

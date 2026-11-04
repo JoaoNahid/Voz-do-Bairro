@@ -7,6 +7,7 @@ import { useSessionStore } from '@/stores/sessionStore';
 
 const emit = defineEmits<{
   (e: 'open-auth', tab: 'login' | 'register'): void;
+  (e: 'open-profile'): void;
 }>();
 
 const { isAuthenticated, currentUser, toggleAuth, logout } = useSessionStore();
@@ -66,10 +67,15 @@ const mobileMenuOpen = ref(false);
         <!-- Auth Action Buttons -->
         <template v-if="isAuthenticated">
           <div class="flex items-center gap-2 pl-2 border-l border-border">
-            <div class="text-right hidden lg:block">
-              <p class="text-xs font-bold leading-tight">{{ currentUser?.name }}</p>
+            <button
+              type="button"
+              @click="emit('open-profile')"
+              class="text-right hidden lg:block hover:opacity-80 transition-opacity cursor-pointer group"
+              title="Visualizar e editar dados cadastrais"
+            >
+              <p class="text-xs font-bold leading-tight group-hover:text-primary transition-colors">{{ currentUser?.name }}</p>
               <p class="text-[11px] text-muted-foreground leading-none">{{ currentUser?.neighborhood }}</p>
-            </div>
+            </button>
             <Button variant="ghost" size="sm" @click="logout" class="h-9 gap-1.5 text-xs text-muted-foreground hover:text-destructive">
               <LogOut class="h-4 w-4" />
               Sair

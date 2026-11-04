@@ -11,9 +11,18 @@
       "App\\": "app/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
   "config": {
     "audit": {
       "block-insecure": false
     }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^13.4",
+    "mockery/mockery": "^1.6"
   }
 }
