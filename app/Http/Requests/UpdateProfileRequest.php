@@ -46,7 +46,7 @@ class UpdateProfileRequest extends FormRequest
 
         return [
             'name' => ['required', 'string', 'min:3', 'max:255'],
-            'email' => ['required', 'string', 'email:rfc,dns', 'max:255', "unique:users,email,{$userId}"],
+            'email' => ['required', 'string', 'email:rfc', 'max:255', "unique:users,email,{$userId}"],
             'current_password' => ['nullable', 'string'],
             'cep' => ['required', 'string', 'size:8'],
             'logradouro' => ['required', 'string', 'max:255'],
